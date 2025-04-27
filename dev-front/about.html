@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos - Localia</title>
+  <link rel="stylesheet" href="html.css">
+  <style>
+    .faq-section {
+      background-color: #f5f5f5;
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 0 auto 60px;
+      border-radius: 10px;
+    }
+    .faq-section h2 {
+      text-align: center;
+      color: #2e8b57;
+      margin-bottom: 30px;
+    }
+    .faq-item {
+      margin-bottom: 15px;
+    }
+    .faq-question {
+      background-color: #e0f2e9;
+      color: #2e8b57;
+      padding: 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .faq-answer {
+      display: none;
+      padding: 10px 15px;
+      background-color: #ffffff;
+      border-left: 4px solid #2e8b57;
+      border-radius: 0 0 5px 5px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="accueil.html" class="logo-link"><img src="images/logo.jpg" alt="Logo Localia"></a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="login.html" id="login-link">Se connecter</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Se déconnecter</a></li>
+      </ul>
+      <div class="dropdown-menu-wrapper" id="menu-droite" style="display: none;">
+        <button class="dropdown-toggle">⋮</button>
+        <div class="dropdown-content">
+          <a href="panier.html">Consulter mon panier</a>
+          <a href="historique.html">Consulter l'historique des commandes</a>
+          <a href="admin.html" id="admin-page-link" style="display: none;">Accéder à l’espace admin</a>
+          <a href="#" id="admin-mode-link" style="display: none;">Passer en mode admin</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Bandeau admin -->
+  <div id="admin-banner" style="display: none; background-color: #ffcc00; color: #333; text-align: center; padding: 10px; font-weight: bold;">
+    👑 Bienvenue Admin 👑
+  </div>
+
+  <!-- Section Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Localia, l'artisanat au service de l'environnement</h1>
+      <p>Découvrez notre mission et notre équipe engagée pour une consommation durable</p>
+    </div>
+  </section>
+
+  <!-- Notre mission -->
+  <section class="produits-selection">
+    <h2>Notre mission</h2>
+    <p>Chez Localia, nous croyons en une consommation plus responsable. Nous proposons des produits faits main, durables et respectueux de l'environnement : textiles, décoration, mobilier. Notre but ? Réduire l'empreinte écologique tout en soutenant les artisans locaux.</p>
+    <img src="images/Artisanat.png" alt="Produits artisanaux" style="width:80%;margin-top:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+  </section>
+
+  <!-- Notre équipe -->
+  <section class="produits-selection">
+    <h2>Notre équipe</h2>
+    <p>Derrière Localia, une équipe de 5 passionnés :</p>
+    <div class="produits-cards">
+      <div class="produit-card">
+        <img src="images/samy.jpeg" alt="Samy">
+        <div class="produit-card-content"><h3>Samy</h3></div>
+      </div>
+      <div class="produit-card">
+        <img src="images/yael.jpeg" alt="Yaël">
+        <div class="produit-card-content"><h3>Yaël</h3></div>
+      </div>
+      <div class="produit-card">
+        <img src="images/alban.jpg" alt="Alban">
+        <div class="produit-card-content"><h3>Alban</h3></div>
+      </div>
+      <div class="produit-card">
+        <img src="images/jayan.jpeg" alt="Jayan">
+        <div class="produit-card-content"><h3>Jayan</h3></div>
+      </div>
+      <div class="produit-card">
+        <img src="images/selim.jpeg" alt="Selim">
+        <div class="produit-card-content"><h3>Selim</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>FAQ - Questions fréquentes</h2>
+    <div class="faq-item">
+      <div class="faq-question">Quels types de produits proposez-vous ?</div>
+      <div class="faq-answer">Nous proposons des articles artisanaux faits main : textiles, décoration, meubles, tous conçus dans le respect de l'environnement.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Comment garantissez-vous l'aspect écologique ?</div>
+      <div class="faq-answer">Nos produits sont issus de matériaux recyclés ou naturels, fabriqués localement par des artisans engagés.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Puis-je retourner un produit ?</div>
+      <div class="faq-answer">Oui, vous avez 14 jours pour changer d'avis. Contactez notre service client.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Livrez-vous partout en France ?</div>
+      <div class="faq-answer">Oui, nous livrons dans toute la France métropolitaine.</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Localia. Tous droits réservés.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Déroulement des FAQ
+    document.querySelectorAll('.faq-question').forEach(item => {
+      item.addEventListener('click', () => {
+        const answer = item.nextElementSibling;
+        answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+      });
+    });
+
+    // Affichage / gestion admin
+    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+  const loginLink = document.getElementById('login-link');
+  const logoutLink = document.getElementById('logout-link');
+  const menuDroite = document.getElementById('menu-droite');
+  const adminModeLink = document.getElementById('admin-mode-link');
+  const adminBanner = document.getElementById('admin-banner');
+  const adminPageLink = document.getElementById('admin-page-link');
+
+  if (data.connected) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'inline-block';
+    if (menuDroite) menuDroite.style.display = 'inline-block';
+
+    if (data.user.role !== 'admin') {
+      if (adminModeLink) adminModeLink.style.display = 'block';
+    } else {
+      if (adminBanner) adminBanner.style.display = 'block';
+      if (adminPageLink) adminPageLink.style.display = 'block';
+    }
+  } else {
+    if (loginLink) loginLink.style.display = 'inline-block';
+    if (logoutLink) logoutLink.style.display = 'none';
+    if (menuDroite) menuDroite.style.display = 'none';
+  }
+});
+
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async () => {
+        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        window.location.href = 'login.html';
+      });
+    }
+
+    // Gestion admin mode
+    const adminModeLink = document.getElementById('admin-mode-link');
+    if (adminModeLink) {
+      adminModeLink.addEventListener('click', async () => {
+        const code = prompt('Entrez le code admin pour passer en mode administrateur :');
+        if (!code) return;
+
+        const res = await fetch('http://localhost:3000/api/admin-mode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ code })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+
+        if (data.success) {
+          window.location.reload();
+        }
+      });
+    }
+
+    document.querySelector('.dropdown-toggle')?.addEventListener('click', () => {
+      document.querySelector('.dropdown-content').classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

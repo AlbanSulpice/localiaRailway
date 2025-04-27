@@ -1,0 +1,326 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+}
+
+h1, h2, h3 {
+  color: #2e8b57; /* Couleur verte pour l'éco-responsabilité */
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+/* Logo Link */
+.logo-link {
+  display: inline-block;      /* pour que le bg-color ne prenne que la taille du logo */
+  background-color: white;    /* ou toute autre couleur */
+  padding: 5px;               /* si tu veux un peu d’espace autour */
+  border-radius: 50%;         /* si tu veux un conteneur rond */
+}
+
+.logo-link img {
+  width: 100px;    /* ou toute autre valeur souhaitée */
+  height: auto;    /* pour conserver les proportions */
+}
+
+/* Header & Nav */
+header {
+  background-color: #fff;
+  padding: 5px 0;      /* espace vertical un peu réduit */
+  margin-top: 40px;    /* espacement sous la section Hero */
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* aligne verticalement logo et liens */
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #2e8b57;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: #e9f5e0;
+  border-radius: 5px;
+}
+
+/* Hero Section */
+.hero {
+  background-image: url('images/sunny-landscape-with-windmills.jpg'); /* Remplace par l'image de fond souhaitée */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+.hero .btn-primary {
+  background-color: #28a745;
+}
+
+.hero .btn-primary:hover {
+  background-color: #218838;
+}
+
+/* Partner Logos */
+.partenaires {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.partenaires-logos img {
+  width: 150px;
+  height: auto;
+  margin: 10px;
+}
+
+/* Product Selection Section */
+.produits-selection {
+  padding: 40px 20px;
+  background-color: white;
+  max-width: 1200px;      /* largeur max pour ne pas trop étirer */
+  margin: 0 auto 40px;    /* centrage horizontal + marge bas */
+  text-align: center;     /* centre le texte de h2 et p */
+  border-radius: 10px;    /* bords arrondis pour le conteneur */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.produits-selection h2,
+.produits-selection p {
+  margin-bottom: 20px;
+}
+
+.produits-cards {
+  display: flex;          /* flex pour centrer les cartes */
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;        /* pour plusieurs cartes selon l’espace */
+}
+
+.produit-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+.produit-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;         /* centre chaque image dans sa carte */
+}
+
+.produit-card-content {
+  padding: 20px;
+}
+
+.produit-card-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.produit-card-content p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.produit-card .btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.produit-card .btn:hover {
+  background-color: #218838;
+}
+
+/* Product Explorer Section */
+.explore-produits {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.explore-produits h2,
+.explore-produits p {
+  margin-bottom: 20px;
+}
+
+.explore-btns .btn-primary {
+  background-color: #28a745;
+}
+
+.explore-btns .btn-secondary {
+  background-color: #6c757d;
+}
+
+/* Certifications Section */
+.certifications {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.certification-logos img {
+  width: 120px;
+  height: auto;
+  margin: 10px;
+}
+
+/* Contact Section */
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 60px 20px;
+}
+
+.contact-form {
+  flex: 1 1 45%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.contact-form button {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contact-form button:hover {
+  background-color: #218838;
+}
+
+.contact-image {
+  flex: 1 1 45%;
+  text-align: center;
+}
+
+.contact-image img {
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+  background-color: #28a745;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+/* Menu déroulant top-right */
+.dropdown-menu-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.dropdown-toggle {
+  font-size: 2.2rem;
+  background-color: #2e8b57;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: #1e6b40;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+  text-align: left;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 12px 20px;
+  color: #2e8b57;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:hover {
+  background-color: #f9f9f9;
+}
+
+.dropdown-content.active {
+  display: block;
+}

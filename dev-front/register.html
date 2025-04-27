@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>S'inscrire - Localia</title>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <a href="accueil.html">
+    <img src="images/logo.jpg" alt="Logo de Localia" />
+  </a>  
+  <div class="signup-container">
+    <div class="signup-content">
+      <h1>S'inscrire</h1>
+      <p>Inscrivez-vous pour profiter de Localia</p>
+
+      <form id="register-form">
+        <label for="name">Nom & Prénom</label>
+        <input type="text" id="name" name="name" placeholder="Entrez votre nom et prénom" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Entrez votre email" required />
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required />
+
+        <button type="submit" class="btn-signup">S'inscrire</button>
+      </form>
+
+      <p>Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
+    </div>
+
+    <div class="signup-image">
+      <img src="images/sunny-landscape-with-windmills.jpg" alt="Nature écologique" />
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('#register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.querySelector('#name').value;
+      const email = document.querySelector('#email').value;
+      const password = document.querySelector('#password').value;
+
+      const response = await fetch('http://localhost:3000/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    });
+  </script>
+</body>
+</html>

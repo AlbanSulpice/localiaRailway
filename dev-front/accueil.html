@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accueil - Localia</title>
+  <link rel="stylesheet" href="html.css">
+</head>
+<body>
+  <!-- En-tête de navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="accueil.html" class="logo-link"><img src="images/logo.jpg" alt="Logo Localia" /></a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="login.html" id="login-link">Se connecter</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Se déconnecter</a></li>
+      </ul>
+      <div class="dropdown-menu-wrapper" id="menu-droite" style="display: none;">
+        <button class="dropdown-toggle">⋮</button>
+        <div class="dropdown-content">
+          <a href="panier.html">Consulter mon panier</a>
+          <a href="historique.html">Consulter l'historique des commandes</a>
+          <a href="admin.html" id="admin-page-link" style="display: none;">Accéder à l’espace admin</a>
+          <a href="#" id="admin-mode-link" style="display: none;">Passer en mode admin</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Bandeau admin -->
+  <div id="admin-banner" style="display: none; background-color: #ffcc00; color: #333; text-align: center; padding: 10px; font-weight: bold;">
+    👑 Bienvenue Admin 👑
+  </div>
+
+  <!-- Section principale (Hero) -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Des produits faits mains écologiques et durables</h1>
+      <a href="produits.html" class="btn-primary">Découvrir nos produits</a>
+    </div>
+  </section>
+
+  <!-- Section des partenaires -->
+  <section class="partenaires">
+    <h2>Nos Partenaires</h2>
+    <p>Nos partenaires partagent notre engagement pour l'artisanat durable et respectueux de la nature.</p>
+    <div class="partenaires-logos">
+      <img src="images/logo bookers.webp" alt="Bookers" class="logo">
+      <img src="images/logo hotels.png" alt="Leaf Hotels" class="logo">
+      <img src="images/logo ecoliday.png" alt="Ecoliday" class="logo">
+      <img src="images/logo naturloop.jpeg" alt="Naturloop" class="logo">
+    </div>
+  </section>
+
+  <!-- Section sélection de produits -->
+  <section class="produits-selection">
+    <h2>Une large sélection de produits artisanaux et durables</h2>
+    <p>Découvrez nos créations uniques fabriquées à la main, alliant esthétique et respect de l'environnement.</p>
+    <div class="produits-cards">
+      <div class="produit-card">
+        <img src="images/Artisanat.png" alt="Artisanat textile">
+        <div class="produit-card-content">
+          <h3>Artisanat textile</h3>
+        </div>
+      </div>
+      <div class="produit-card">
+        <img src="images/ChatGPT Image 7 avr. 2025 à 13_34_26.png" alt="Décoration intérieure">
+        <div class="produit-card-content">
+          <h3>Décoration intérieure</h3>
+        </div>
+      </div>
+      <div class="produit-card">
+        <img src="images/beautiful-still-life-with-herbal-medicine.jpg" alt="Médecine">
+        <div class="produit-card-content">
+          <h3>Médecine</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Explorer les produits -->
+  <section class="explore-produits">
+    <h2>Explorez nos produits faits main pour chaque pièce de votre maison</h2>
+    <p>Des créations artisanales pour ceux qui cherchent la simplicité et le respect de l'environnement.</p>
+    <div class="explore-btns">
+      <a href="produits.html" class="btn-primary">Découvrir nos produits</a>
+    </div>
+  </section>
+
+  <!-- Section Certifications -->
+  <section class="certifications">
+    <h2>Nos certifications</h2>
+    <p>Certifiés éco-responsables, nous garantissons des produits respectueux de l'environnement à chaque étape de leur création.</p>
+    <div class="certification-logos">
+      <img src="images/Capture d’écran 2025-04-07 à 14.43.45.png" alt="Green Energy" class="certification-logo">
+      <img src="images/Capture d’écran 2025-04-07 à 14.43.36.png" alt="100% Ecology" class="certification-logo">
+      <img src="images/Capture d’écran 2025-04-07 à 14.43.30.png" alt="Green Energy Seal" class="certification-logo">
+    </div>
+  </section>
+
+  <!-- Section Contactez-nous -->
+  <section class="contact">
+    <div class="contact-form">
+      <h2>Contactez-nous</h2>
+      <p>Pour toute question ou demande, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.</p>
+      <form action="#" method="POST">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" placeholder="Entrez votre nom" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Entrez votre email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Écrivez votre message..." required></textarea>
+
+        <div class="conditions">
+          <input type="checkbox" id="conditions" required>
+          <label for="conditions">J'accepte les Conditions Générales*</label>
+        </div>
+
+        <button type="submit" class="btn-primary">Envoyer</button>
+      </form>
+    </div>
+
+    <div class="contact-image">
+      <img src="images/realistic-water-drop-with-ecosystem.jpg" alt="Image écologique">
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Localia. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+  const loginLink = document.getElementById('login-link');
+  const logoutLink = document.getElementById('logout-link');
+  const menuDroite = document.getElementById('menu-droite');
+  const adminModeLink = document.getElementById('admin-mode-link');
+  const adminBanner = document.getElementById('admin-banner');
+  const adminPageLink = document.getElementById('admin-page-link');
+
+  if (data.connected) {
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'inline-block';
+    if (menuDroite) menuDroite.style.display = 'inline-block';
+
+    if (data.user.role !== 'admin') {
+      if (adminModeLink) adminModeLink.style.display = 'block';
+    } else {
+      if (adminBanner) adminBanner.style.display = 'block';
+      if (adminPageLink) adminPageLink.style.display = 'block';
+    }
+  } else {
+    if (loginLink) loginLink.style.display = 'inline-block';
+    if (logoutLink) logoutLink.style.display = 'none';
+    if (menuDroite) menuDroite.style.display = 'none';
+  }
+});
+
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async () => {
+        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        window.location.href = 'login.html';
+      });
+    }
+
+    const adminModeLink = document.getElementById('admin-mode-link');
+    if (adminModeLink) {
+      adminModeLink.addEventListener('click', async () => {
+        const code = prompt('Entrez le code admin pour passer en mode administrateur :');
+        if (!code) return;
+
+        const res = await fetch('http://localhost:3000/api/admin-mode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ code })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+
+        if (data.success) {
+          window.location.reload();
+        }
+      });
+    }
+
+    document.querySelector('.dropdown-toggle')?.addEventListener('click', () => {
+      document.querySelector('.dropdown-content').classList.toggle('active');
+    });
+  </script>
+
+</body>
+</html>

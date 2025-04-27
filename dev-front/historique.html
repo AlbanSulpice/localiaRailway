@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historique des commandes - Localia</title>
+  <link rel="stylesheet" href="html.css" />
+  <style>
+    .historique-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .commande {
+      margin-bottom: 40px;
+    }
+
+    .commande h2 {
+      color: #2e8b57;
+      margin-bottom: 10px;
+    }
+
+    .commande table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .commande th, .commande td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .commande th {
+      background-color: #f2f2f2;
+    }
+
+    .total-ligne {
+      font-weight: bold;
+      text-align: right;
+      padding-top: 10px;
+    }
+
+    .btn-payer {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-paiement {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .form-paiement input {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .form-paiement button {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="accueil.html" class="logo-link"><img src="images/logo.jpg" alt="Logo Localia" /></a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="login.html" id="login-link">Se connecter</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Se déconnecter</a></li>
+      </ul>
+      <div class="dropdown-menu-wrapper" id="menu-droite" style="display: none;">
+        <button class="dropdown-toggle">⋮</button>
+        <div class="dropdown-content">
+          <a href="panier.html">Consulter mon panier</a>
+          <a href="historique.html">Consulter l'historique des commandes</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="historique-container" id="historique">
+    <h1>Mes commandes</h1>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Localia. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        const loginLink = document.getElementById('login-link');
+        const logoutLink = document.getElementById('logout-link');
+        const menuDroite = document.getElementById('menu-droite');
+
+        if (data.connected) {
+          loginLink.style.display = 'none';
+          logoutLink.style.display = 'inline-block';
+          menuDroite.style.display = 'inline-block';
+          chargerCommandes();
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+
+    async function chargerCommandes() {
+      const res = await fetch('http://localhost:3000/api/commandes', { credentials: 'include' });
+      const data = await res.json();
+
+      const conteneur = document.getElementById('historique');
+
+      if (!data.success) {
+        conteneur.innerHTML = '<p>Erreur lors du chargement de vos commandes.</p>';
+        return;
+      }
+
+      if (data.commandes.length === 0) {
+        conteneur.innerHTML = '<p>Vous n\'avez pas encore passé de commande.</p>';
+        return;
+      }
+
+      data.commandes.forEach(cmd => {
+        const section = document.createElement('section');
+        section.classList.add('commande');
+
+        const titre = document.createElement('h2');
+        titre.textContent = `Commande #${cmd.id_commande} - ${new Date(cmd.date).toLocaleDateString()} (${cmd.status})`;
+        section.appendChild(titre);
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Quantité</th>
+              <th>Prix unitaire</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cmd.produits.map(p => `
+              <tr>
+                <td>${p.nom ? p.nom : 'Produit supprimé'}</td>
+                <td>${p.quantity}</td>
+                <td>${Number(p.prix).toFixed(2)} €</td>
+                <td>${Number(p.total).toFixed(2)} €</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        `;
+        section.appendChild(table);
+
+        const total = document.createElement('p');
+        total.className = 'total-ligne';
+        total.textContent = `Total de la commande : ${Number(cmd.total).toFixed(2)} €`;
+        section.appendChild(total);
+
+        if (cmd.status === 'en attente') {
+          const btn = document.createElement('button');
+          btn.className = 'btn-payer';
+          btn.textContent = 'Payer pour finaliser';
+          section.appendChild(btn);
+
+          const form = document.createElement('div');
+          form.className = 'form-paiement';
+          form.style.display = 'none';
+          form.innerHTML = `
+            <label>Numéro de carte</label>
+<input type="text" placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="19" pattern="\d{16}" required />
+
+<label>Date d'expiration</label>
+<input type="text" placeholder="MM/AA" maxlength="5" pattern="(0[1-9]|1[0-2])\/\d{2}" required />
+
+<label>CVV</label>
+<input type="password" placeholder="●●●" maxlength="4" pattern="\d{3,4}" inputmode="numeric" required />
+            <button>Valider le paiement</button>
+          `;
+
+          section.appendChild(form);
+
+          btn.addEventListener('click', () => {
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+          });
+
+          form.querySelector('button').addEventListener('click', async () => {
+            const res = await fetch(`http://localhost:3000/api/commande/${cmd.id_commande}/valider`, {
+              method: 'POST',
+              credentials: 'include'
+            });
+            const result = await res.json();
+            alert(result.message);
+            if (result.success) window.location.reload();
+          });
+        }
+
+        conteneur.appendChild(section);
+      });
+    }
+
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async () => {
+        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        window.location.href = 'login.html';
+      });
+    }
+
+    document.querySelector('.dropdown-toggle')?.addEventListener('click', () => {
+      document.querySelector('.dropdown-content').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

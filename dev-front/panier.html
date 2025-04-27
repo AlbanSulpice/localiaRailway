@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Panier - Localia</title>
+  <link rel="stylesheet" href="html.css">
+  <style>
+    .panier-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .panier-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .panier-table th,
+    .panier-table td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .panier-table th {
+      background-color: #f5f5f5;
+      color: #2e8b57;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .total-panier {
+      text-align: right;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="accueil.html" class="logo-link"><img src="images/logo.jpg" alt="Logo Localia"></a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="about.html">A propos</a></li>
+        <li><a href="login.html" id="login-link">Se connecter</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Se déconnecter</a></li>
+        <li><a href="historique.html" id="panier-link" style="display: none;">Historique des commandes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="panier-container">
+    <h2>Mon Panier</h2>
+    <table class="panier-table" id="table-panier">
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Prix</th>
+          <th>Quantité</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="contenu-panier">
+        <!-- Produits injectés ici -->
+      </tbody>
+    </table>
+    <div class="total-panier" id="total-panier">Total : 0 €</div>
+    <div style="text-align: center; margin-top: 30px;">
+      <button id="valider-commande" class="btn-panier" style="font-size: 1.2rem; padding: 12px 24px;">
+        Valider ma commande
+      </button>
+    </div>    
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Localia. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    async function chargerPanier() {
+      const res = await fetch('http://localhost:3000/api/panier', { credentials: 'include' });
+      const data = await res.json();
+
+      const contenu = document.getElementById('contenu-panier');
+      const totalElement = document.getElementById('total-panier');
+      contenu.innerHTML = '';
+
+      if (!data.success || data.produits.length === 0) {
+        contenu.innerHTML = '<tr><td colspan="5">Votre panier est vide.</td></tr>';
+        totalElement.innerText = 'Total : 0 €';
+        return;
+      }
+
+      let total = 0;
+
+      data.produits.forEach(p => {
+        const ligne = document.createElement('tr');
+        const sousTotal = p.price * p.quantity;
+        total += sousTotal;
+
+        ligne.innerHTML = `
+          <td>${p.product_name}</td>
+          <td>${p.price} €</td>
+          <td>${p.quantity}</td>
+          <td>${sousTotal} €</td>
+          <td><button class="btn-delete" onclick="supprimerDuPanier(${p.id_produit})">❌</button></td>
+        `;
+        contenu.appendChild(ligne);
+      });
+
+      totalElement.innerText = `Total : ${total} €`;
+    }
+
+    async function supprimerDuPanier(id_produit) {
+      const res = await fetch(`http://localhost:3000/api/panier/${id_produit}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      const data = await res.json();
+      alert(data.message);
+      chargerPanier();
+    }
+
+    // Authentification : afficher/hide les liens
+    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        const loginLink = document.getElementById('login-link');
+        const logoutLink = document.getElementById('logout-link');
+        const panierLink = document.getElementById('panier-link');
+        if (data.connected) {
+          if (loginLink) loginLink.style.display = 'none';
+          if (logoutLink) logoutLink.style.display = 'inline-block';
+          if (panierLink) panierLink.style.display = 'inline-block';
+          chargerPanier();
+        } else {
+          alert('Vous devez être connecté pour voir votre panier.');
+          window.location.href = 'login.html';
+        }
+      });
+
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async () => {
+        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        window.location.href = 'login.html';
+      });
+    }
+    document.getElementById('valider-commande').addEventListener('click', async () => {
+  const confirmé = confirm("Confirmez-vous la validation de votre commande ?");
+  if (!confirmé) return;
+
+  const res = await fetch('http://localhost:3000/api/commande', {
+    method: 'POST',
+    credentials: 'include'
+  });
+
+  const data = await res.json();
+  alert(data.message);
+
+  if (data.success) {
+    // Recharge ou redirige après validation
+    window.location.reload();
+  }
+});
+
+  </script>
+</body>
+</html>

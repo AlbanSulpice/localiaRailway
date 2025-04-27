@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos produits - Localia</title>
+  <link rel="stylesheet" href="html.css">
+  <style>
+    .produits-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .produit-item {
+      width: 300px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .produit-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .produit-header {
+      padding: 15px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .produit-details {
+      display: none;
+      padding: 15px;
+      border-top: 1px solid #ddd;
+    }
+
+    .btn-panier {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .filtres {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .filtres select {
+      padding: 8px 12px;
+      margin: 0 10px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="accueil.html" class="logo-link"><img src="images/logo.jpg" alt="Logo Localia"></a></li>
+        <li><a href="accueil.html">Accueil</a></li>
+        <li><a href="about.html">A propos</a></li>
+        <li><a href="login.html" id="login-link">Se connecter</a></li>
+        <li><a href="#" id="logout-link" style="display: none;">Se déconnecter</a></li>
+        <li><a href="panier.html" id="panier-link" style="display: none;">Panier</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="filtres">
+    <label for="tri-prix">Trier par prix :</label>
+    <select id="tri-prix">
+      <option value="">Aucun</option>
+      <option value="asc">Prix croissant</option>
+      <option value="desc">Prix décroissant</option>
+    </select>
+  </section>
+
+  <section class="produits-grid" id="produits"></section>
+
+  <footer>
+    <p>&copy; 2025 Localia. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    let produitsOriginaux = [];
+
+    function getImageByType(type) {
+      const images = {
+        textile: 'images/Artisanat.png',
+        decor: 'images/ChatGPT Image 7 avr. 2025 à 13_34_26.png',
+        furniture: 'images/interior-decor-furniture-inspired-by-fruits-vegetables.jpg'
+      };
+      return images[type] || 'images/default.jpg';
+    }
+
+    function afficherProduits(produits) {
+      const container = document.getElementById('produits');
+      container.innerHTML = '';
+      produits.forEach(p => {
+        const article = document.createElement('div');
+        article.className = 'produit-item';
+        article.innerHTML = `
+          <img src="${getImageByType(p.product_type)}" alt="${p.product_name}">
+          <div class="produit-header">${p.product_name}</div>
+          <div class="produit-details">
+            <p><strong>Description :</strong> ${p.product_description}</p>
+            <p><strong>Catégorie :</strong> ${p.product_type}</p>
+            <p><strong>Prix :</strong> ${p.price} €</p>
+            <button class="btn-panier" onclick="ajouterAuPanier(${p.id_produit})">Ajouter au panier</button>
+          </div>
+        `;
+        article.querySelector('.produit-header').addEventListener('click', () => {
+          const details = article.querySelector('.produit-details');
+          details.style.display = details.style.display === 'block' ? 'none' : 'block';
+        });
+        container.appendChild(article);
+      });
+    }
+
+    async function chargerProduits() {
+      const res = await fetch('http://localhost:3000/api/products');
+      const data = await res.json();
+      if (data.success) {
+        produitsOriginaux = data.products;
+        afficherProduits(produitsOriginaux);
+      }
+    }
+
+    function filtrerProduits() {
+      const tri = document.getElementById('tri-prix').value;
+      let produits = [...produitsOriginaux];
+      if (tri === 'asc') {
+        produits.sort((a, b) => a.price - b.price);
+      } else if (tri === 'desc') {
+        produits.sort((a, b) => b.price - a.price);
+      }
+      afficherProduits(produits);
+    }
+
+    async function ajouterAuPanier(id) {
+      const res = await fetch('http://localhost:3000/api/panier', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id_produit: id })
+      });
+      const data = await res.json();
+      alert(data.message);
+    }
+
+    document.getElementById('tri-prix').addEventListener('change', filtrerProduits);
+    chargerProduits();
+
+    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        const loginLink = document.getElementById('login-link');
+        const logoutLink = document.getElementById('logout-link');
+        const panierLink = document.getElementById('panier-link');
+        if (data.connected) {
+          if (loginLink) loginLink.style.display = 'none';
+          if (logoutLink) logoutLink.style.display = 'inline-block';
+          if (panierLink) panierLink.style.display = 'inline-block';
+        }
+      });
+
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async () => {
+        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        window.location.href = 'login.html';
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: url('images/sunny-landscape-with-windmills.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Logo */
+body > a > img {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: 50px;
+  cursor: pointer;
+}
+
+/* Form Container */
+.login-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Titre & texte */
+.login-content h1 {
+  font-size: 2rem;
+  color: #2e8b57;
+  margin-bottom: 20px;
+}
+
+.login-content p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Champs */
+.login-content label {
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+  color: #333;
+}
+
+.login-content input[type="email"],
+.login-content input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Checkbox */
+.login-content .checkbox {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.login-content .checkbox input {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* Bouton */
+.btn-login {
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  padding: 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #218838;
+}
+
+/* Lien vers l'inscription */
+.login-content p a {
+  color: #28a745;
+  text-decoration: none;
+}
+
+.login-content p a:hover {
+  text-decoration: underline;
+}
+
+/* Supprimer image secondaire */
+.login-image {
+  display: none;
+}
