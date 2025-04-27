@@ -41,19 +41,47 @@ app.use(session({
 }));
 
 // Servir les fichiers HTML statiques depuis dev-front
-app.use(express.static(path.join(__dirname, '../dev-front')));
+app.use(express.static(path.join(__dirname, 'dev-front')));
 
 // Routes HTML
+// Accueil
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dev-front/accueil.html'));
+  res.sendFile(path.join(__dirname, 'dev-front', 'accueil.html'));
 });
 
+// Login
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dev-front/login.html'));
+  res.sendFile(path.join(__dirname, 'dev-front', 'login.html'));
 });
 
+// Register
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dev-front/register.html'));
+  res.sendFile(path.join(__dirname, 'dev-front', 'register.html'));
+});
+
+// Produits
+app.get('/produits', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dev-front', 'produits.html'));
+});
+
+// About
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dev-front', 'about.html'));
+});
+
+// Admin
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dev-front', 'admin.html'));
+});
+
+// Historique commandes
+app.get('/historique', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dev-front', 'historique.html'));
+});
+
+// Panier
+app.get('/panier', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dev-front', 'panier.html'));
 });
 
 // API : Login
