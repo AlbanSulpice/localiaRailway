@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://tonsite-production.up.railway.app' // <-- Mets ici l'URL exacte de ton Railway
+  'https://localiarailway-production-5684.up.railway.app' // <-- Mets ici l'URL exacte de ton Railway
 ];
 
 app.use(cors({
