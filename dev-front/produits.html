@@ -94,8 +94,12 @@
   </footer>
 
   <script>
+    const API_BASE_URL = window.location.hostname.includes('railway.app')
+      ? 'https://localiarailway-production.up.railway.app'
+      : 'http://localhost:3000';
+    
     let produitsOriginaux = [];
-
+    
     function getImageByType(type) {
       const images = {
         textile: 'images/Artisanat.png',
@@ -104,7 +108,7 @@
       };
       return images[type] || 'images/default.jpg';
     }
-
+    
     function afficherProduits(produits) {
       const container = document.getElementById('produits');
       container.innerHTML = '';
@@ -123,21 +127,21 @@
         `;
         article.querySelector('.produit-header').addEventListener('click', () => {
           const details = article.querySelector('.produit-details');
-          details.style.display = details.style.display === 'block' ? 'none' : 'block';
+          details.style.display = (details.style.display === 'block') ? 'none' : 'block';
         });
         container.appendChild(article);
       });
     }
-
+    
     async function chargerProduits() {
-      const res = await fetch('http://localhost:3000/api/products');
+      const res = await fetch(`${API_BASE_URL}/api/products`);
       const data = await res.json();
       if (data.success) {
         produitsOriginaux = data.products;
         afficherProduits(produitsOriginaux);
       }
     }
-
+    
     function filtrerProduits() {
       const tri = document.getElementById('tri-prix').value;
       let produits = [...produitsOriginaux];
@@ -148,9 +152,9 @@
       }
       afficherProduits(produits);
     }
-
+    
     async function ajouterAuPanier(id) {
-      const res = await fetch('http://localhost:3000/api/panier', {
+      const res = await fetch(`${API_BASE_URL}/api/panier`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -159,11 +163,12 @@
       const data = await res.json();
       alert(data.message);
     }
-
+    
     document.getElementById('tri-prix').addEventListener('change', filtrerProduits);
     chargerProduits();
-
-    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+    
+    // Gérer l'affichage login/logout
+    fetch(`${API_BASE_URL}/api/user`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         const loginLink = document.getElementById('login-link');
@@ -175,14 +180,14 @@
           if (panierLink) panierLink.style.display = 'inline-block';
         }
       });
-
+    
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
       logoutLink.addEventListener('click', async () => {
-        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        await fetch(`${API_BASE_URL}/api/logout`, { credentials: 'include' });
         window.location.href = 'login.html';
       });
     }
-  </script>
+    </script>
 </body>
 </html>

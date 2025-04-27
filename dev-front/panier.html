@@ -92,27 +92,31 @@
   </footer>
 
   <script>
+    const API_BASE_URL = window.location.hostname.includes('railway.app')
+      ? 'https://localiarailway-production.up.railway.app'
+      : 'http://localhost:3000';
+    
     async function chargerPanier() {
-      const res = await fetch('http://localhost:3000/api/panier', { credentials: 'include' });
+      const res = await fetch(`${API_BASE_URL}/api/panier`, { credentials: 'include' });
       const data = await res.json();
-
+    
       const contenu = document.getElementById('contenu-panier');
       const totalElement = document.getElementById('total-panier');
       contenu.innerHTML = '';
-
+    
       if (!data.success || data.produits.length === 0) {
         contenu.innerHTML = '<tr><td colspan="5">Votre panier est vide.</td></tr>';
         totalElement.innerText = 'Total : 0 €';
         return;
       }
-
+    
       let total = 0;
-
+    
       data.produits.forEach(p => {
         const ligne = document.createElement('tr');
         const sousTotal = p.price * p.quantity;
         total += sousTotal;
-
+    
         ligne.innerHTML = `
           <td>${p.product_name}</td>
           <td>${p.price} €</td>
@@ -122,12 +126,12 @@
         `;
         contenu.appendChild(ligne);
       });
-
+    
       totalElement.innerText = `Total : ${total} €`;
     }
-
+    
     async function supprimerDuPanier(id_produit) {
-      const res = await fetch(`http://localhost:3000/api/panier/${id_produit}`, {
+      const res = await fetch(`${API_BASE_URL}/api/panier/${id_produit}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -135,9 +139,8 @@
       alert(data.message);
       chargerPanier();
     }
-
-    // Authentification : afficher/hide les liens
-    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+    
+    fetch(`${API_BASE_URL}/api/user`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         const loginLink = document.getElementById('login-link');
@@ -153,32 +156,31 @@
           window.location.href = 'login.html';
         }
       });
-
+    
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
       logoutLink.addEventListener('click', async () => {
-        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        await fetch(`${API_BASE_URL}/api/logout`, { credentials: 'include' });
         window.location.href = 'login.html';
       });
     }
+    
     document.getElementById('valider-commande').addEventListener('click', async () => {
-  const confirmé = confirm("Confirmez-vous la validation de votre commande ?");
-  if (!confirmé) return;
-
-  const res = await fetch('http://localhost:3000/api/commande', {
-    method: 'POST',
-    credentials: 'include'
-  });
-
-  const data = await res.json();
-  alert(data.message);
-
-  if (data.success) {
-    // Recharge ou redirige après validation
-    window.location.reload();
-  }
-});
-
-  </script>
+      const confirme = confirm("Confirmez-vous la validation de votre commande ?");
+      if (!confirme) return;
+    
+      const res = await fetch(`${API_BASE_URL}/api/commande`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+    
+      const data = await res.json();
+      alert(data.message);
+    
+      if (data.success) {
+        window.location.reload();
+      }
+    });
+    </script>
 </body>
 </html>

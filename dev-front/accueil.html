@@ -134,68 +134,69 @@
   </footer>
 
   <script>
-    fetch('http://localhost:3000/api/user', { credentials: 'include' })
+    const API_BASE_URL = window.location.hostname.includes('railway.app')
+      ? 'https://localiarailway-production.up.railway.app'
+      : 'http://localhost:3000';
+    
+    fetch(`${API_BASE_URL}/api/user`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
-  const loginLink = document.getElementById('login-link');
-  const logoutLink = document.getElementById('logout-link');
-  const menuDroite = document.getElementById('menu-droite');
-  const adminModeLink = document.getElementById('admin-mode-link');
-  const adminBanner = document.getElementById('admin-banner');
-  const adminPageLink = document.getElementById('admin-page-link');
-
-  if (data.connected) {
-    if (loginLink) loginLink.style.display = 'none';
-    if (logoutLink) logoutLink.style.display = 'inline-block';
-    if (menuDroite) menuDroite.style.display = 'inline-block';
-
-    if (data.user.role !== 'admin') {
-      if (adminModeLink) adminModeLink.style.display = 'block';
-    } else {
-      if (adminBanner) adminBanner.style.display = 'block';
-      if (adminPageLink) adminPageLink.style.display = 'block';
-    }
-  } else {
-    if (loginLink) loginLink.style.display = 'inline-block';
-    if (logoutLink) logoutLink.style.display = 'none';
-    if (menuDroite) menuDroite.style.display = 'none';
-  }
-});
-
+        const loginLink = document.getElementById('login-link');
+        const logoutLink = document.getElementById('logout-link');
+        const menuDroite = document.getElementById('menu-droite');
+        const adminModeLink = document.getElementById('admin-mode-link');
+        const adminBanner = document.getElementById('admin-banner');
+        const adminPageLink = document.getElementById('admin-page-link');
+    
+        if (data.connected) {
+          if (loginLink) loginLink.style.display = 'none';
+          if (logoutLink) logoutLink.style.display = 'inline-block';
+          if (menuDroite) menuDroite.style.display = 'inline-block';
+          if (data.user.role !== 'admin') {
+            if (adminModeLink) adminModeLink.style.display = 'block';
+          } else {
+            if (adminBanner) adminBanner.style.display = 'block';
+            if (adminPageLink) adminPageLink.style.display = 'block';
+          }
+        } else {
+          if (loginLink) loginLink.style.display = 'inline-block';
+          if (logoutLink) logoutLink.style.display = 'none';
+          if (menuDroite) menuDroite.style.display = 'none';
+        }
+      });
+    
     const logoutLink = document.getElementById('logout-link');
     if (logoutLink) {
       logoutLink.addEventListener('click', async () => {
-        await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+        await fetch(`${API_BASE_URL}/api/logout`, { credentials: 'include' });
         window.location.href = 'login.html';
       });
     }
-
+    
     const adminModeLink = document.getElementById('admin-mode-link');
     if (adminModeLink) {
       adminModeLink.addEventListener('click', async () => {
         const code = prompt('Entrez le code admin pour passer en mode administrateur :');
         if (!code) return;
-
-        const res = await fetch('http://localhost:3000/api/admin-mode', {
+    
+        const res = await fetch(`${API_BASE_URL}/api/admin-mode`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({ code })
         });
-
+    
         const data = await res.json();
         alert(data.message);
-
         if (data.success) {
           window.location.reload();
         }
       });
     }
-
+    
     document.querySelector('.dropdown-toggle')?.addEventListener('click', () => {
       document.querySelector('.dropdown-content').classList.toggle('active');
     });
-  </script>
-
+    </script>
 </body>
 </html>

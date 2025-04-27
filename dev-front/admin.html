@@ -142,15 +142,18 @@
 </footer>
 
 <script>
-  // Sécurité affichage
-  fetch('http://localhost:3000/api/user', { credentials: 'include' })
+  const API_BASE_URL = window.location.hostname.includes('railway.app')
+    ? 'https://localiarailway-production.up.railway.app'
+    : 'http://localhost:3000';
+  
+  fetch(`${API_BASE_URL}/api/user`, { credentials: 'include' })
     .then(res => res.json())
     .then(data => {
       const loginLink = document.getElementById('login-link');
       const logoutLink = document.getElementById('logout-link');
       const menuDroite = document.getElementById('menu-droite');
       const adminBanner = document.getElementById('admin-banner');
-
+  
       if (data.connected && data.user.role === 'admin') {
         if (loginLink) loginLink.style.display = 'none';
         if (logoutLink) logoutLink.style.display = 'inline-block';
@@ -161,92 +164,60 @@
         window.location.href = 'login.html';
       }
     });
-
+  
   const logoutLink = document.getElementById('logout-link');
   if (logoutLink) {
     logoutLink.addEventListener('click', async () => {
-      await fetch('http://localhost:3000/api/logout', { credentials: 'include' });
+      await fetch(`${API_BASE_URL}/api/logout`, { credentials: 'include' });
       window.location.href = 'login.html';
     });
   }
-
-  document.querySelector('.dropdown-toggle')?.addEventListener('click', () => {
-    document.querySelector('.dropdown-content').classList.toggle('active');
-  });
-
-  // Charger tous les produits dans les menus déroulants
+  
+  // Fonctions pour CRUD Admin
   async function chargerProduits() {
-    const res = await fetch('http://localhost:3000/api/products');
+    const res = await fetch(`${API_BASE_URL}/api/products`);
     const data = await res.json();
     if (data.success) {
       const selectModifier = document.getElementById('produit-modifier');
       const selectSupprimer = document.getElementById('produit-supprimer');
       const selectStock = document.getElementById('produit-stock');
-
       data.products.forEach(p => {
-        const option = `<option value="${p.id_produit}">${p.id_produit} - ${p.product_name}</option>`;
+        const option = `<option value=\"${p.id_produit}\">${p.id_produit} - ${p.product_name}</option>`;
         selectModifier.innerHTML += option;
         selectSupprimer.innerHTML += option;
         selectStock.innerHTML += option;
       });
     }
   }
+  
   document.getElementById('form-ajouter').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const product = {
-    product_name: document.getElementById('nom-ajouter').value.trim(),
-    product_description: document.getElementById('description-ajouter').value.trim(),
-    product_type: document.getElementById('type-ajouter').value,
-    price: parseFloat(document.getElementById('prix-ajouter').value),
-    stock: parseInt(document.getElementById('stock-ajouter').value, 10)
-  };
-
-  const res = await fetch('http://localhost:3000/api/admin/product', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(product)
+    e.preventDefault();
+    const product = {
+      product_name: document.getElementById('nom-ajouter').value.trim(),
+      product_description: document.getElementById('description-ajouter').value.trim(),
+      product_type: document.getElementById('type-ajouter').value,
+      price: parseFloat(document.getElementById('prix-ajouter').value),
+      stock: parseInt(document.getElementById('stock-ajouter').value, 10)
+    };
+    const res = await fetch(`${API_BASE_URL}/api/admin/product`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(product)
+    });
+    const data = await res.json();
+    alert(data.message);
+    if (data.success) window.location.reload();
   });
-
-  const data = await res.json();
-  alert(data.message);
-  if (data.success) {
-    window.location.reload();
-  }
-});
-document.getElementById('form-modifier').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const id = document.getElementById('produit-modifier').value;
-
-  const updates = {
-    product_name: document.getElementById('nom-modifier').value.trim(),
-    product_description: document.getElementById('description-modifier').value.trim(),
-    product_type: document.getElementById('type-modifier').value,
-    price: document.getElementById('prix-modifier').value ? parseFloat(document.getElementById('prix-modifier').value) : null
-  };
-
-  const res = await fetch(`http://localhost:3000/api/admin/product/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(updates)
-  });
-
-  const data = await res.json();
-  alert(data.message);
-  if (data.success) {
-    window.location.reload();
-  }
-});
-document.getElementById('form-stock').addEventListener('submit', async (e) => {
+  
+  // Pareil pour form-modifier, form-supprimer, form-stock
+  document.getElementById('form-stock').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const id = document.getElementById('produit-stock').value;
   const quantite = parseInt(document.getElementById('quantite-stock').value, 10);
 
-  const res = await fetch(`http://localhost:3000/api/admin/stock/${id}`, {
+  const res = await fetch(`${API_BASE_URL}/api/admin/stock/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -259,6 +230,7 @@ document.getElementById('form-stock').addEventListener('submit', async (e) => {
     window.location.reload();
   }
 });
+
 document.getElementById('form-supprimer').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -267,7 +239,7 @@ document.getElementById('form-supprimer').addEventListener('submit', async (e) =
   const confirmation = confirm("Es-tu sûr de vouloir supprimer ce produit ? Cette action est irréversible !");
   if (!confirmation) return;
 
-  const res = await fetch(`http://localhost:3000/api/admin/product/${id}`, {
+  const res = await fetch(`${API_BASE_URL}/api/admin/product/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include'
@@ -282,8 +254,33 @@ document.getElementById('form-supprimer').addEventListener('submit', async (e) =
     alert('⚠️ Suppression impossible : ' + data.message);
   }
 });
+document.getElementById('form-modifier').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-</script>
+  const id = document.getElementById('produit-modifier').value;
+
+  const updates = {
+    product_name: document.getElementById('nom-modifier').value.trim(),
+    product_description: document.getElementById('description-modifier').value.trim(),
+    product_type: document.getElementById('type-modifier').value,
+    price: document.getElementById('prix-modifier').value ? parseFloat(document.getElementById('prix-modifier').value) : null
+  };
+
+  const res = await fetch(`${API_BASE_URL}/api/admin/product/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(updates)
+  });
+
+  const data = await res.json();
+  alert(data.message);
+  if (data.success) {
+    window.location.reload();
+  }
+});
+
+  </script>
 
 </body>
 </html>
