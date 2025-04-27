@@ -11,10 +11,22 @@ const db = require('./config/db');
 
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://tonsite-production.up.railway.app' // <-- Mets ici l'URL exacte de ton Railway
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 app.use(express.json());
 app.use(session({
   secret: 'localiaSecret',
