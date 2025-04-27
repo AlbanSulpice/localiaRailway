@@ -175,11 +175,13 @@ app.get('/api/user', (req, res) => {
 // API : Récupérer tous les produits
 app.get('/api/products', (req, res) => {
   const sql = 'SELECT * FROM product';
+  
   db.query(sql, (err, results) => {
     if (err) {
-      console.error('Erreur lors de la récupération des produits :', err);
-      return res.status(500).json({ success: false, message: 'Erreur serveur' });
+      console.error('❌ ERREUR dans /api/products:', err);  // <-- LOG L'ERREUR EXACTE
+      return res.status(500).json({ success: false, message: 'Erreur serveur lors de la récupération des produits.', erreur: err.message });
     }
+
     res.json({ success: true, products: results });
   });
 });
